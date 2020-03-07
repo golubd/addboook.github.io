@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="text.css">
+    <link href="github.css" rel="stylesheet" type="text/css">
+    <script src="rainbow-custom.min.js"></script>
+</head>
+<body>
+    <div class="center">
+        <h1>Гостевая книга на php</h1>
+<p>Зайдите в любой текстовый редактор (Например Notepad, но мы советуем Visual Studio Code
+Создайте файл "index.html", "style.css", "readbook.php", "addbook.php","guestbook.txt","readbook.css","style.css"
+Разберем все по порядку:
+Для начала сделаем структуру обычного HTML:</p>
+<pre class="code" ><code class="coding" data-language="html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;body&gt;
+
+&lt;/body&gt; 
+&lt;/html&gt;</code></pre>
+<p>
+А теперь добавим форму которая будет ссылаться на наш addbook.php
+</p>
+<pre class="code"><code class="coding" data-language="html">
+    &lt;main&gt;
+        &lt;div&gt;&lt;/div&gt;   
+        &lt;div class="normalText"&gt;
+            &lt;form action="addbook.php" method="post"&gt;
+            &lt;div class="message"&gt;
+                Сообщение&lt;br&gt;&lt;br&gt;
+            &lt;/div&gt;
+            &lt;textarea name="message" cols="50" rows="7" class="textbox" required&gt;&lt;/textarea&gt;&lt;br&gt;&lt;br&gt;
+            &lt;div class = 'message'&gt;
+                Имя&lt;br&gt;&lt;br&gt;
+            &lt;/div&gt;
+            &lt;input type="text" name="name" size="48" class="textbox" value="" required&gt;&lt;br&gt;&lt;br&gt;
+            &lt;div class = 'message'&gt;
+                Пароль&lt;br&gt;&lt;br&gt;
+            &lt;/div&gt;
+            &lt;textarea name="password" cols="50" rows="1" class="textbox" required &gt;World&lt;/textarea&gt;&lt;br&gt;&lt;br&gt;
+            &lt;input type="submit" value=" Submit " class="textbox" id="button"&gt;
+            &lt;/form&gt;
+        &lt;/div&gt;
+        &lt;img src="anonym.jpg" alt="" id="avatar"&gt;
+    &lt;/main&gt;
+</code></pre>
+<p>
+После добавим ссылки на наши страницы;
+</p>
+<pre class="code"><code class="coding" data-language="html">
+    &lt;header&gt;
+        &lt;nav&gt;
+            &lt;ul&gt;
+                &lt;li&gt;&lt;a href= # target="_self" rel="noopener noreferrer"&gt;Отправить сообщение&lt;/a&gt;&lt;/li&gt;
+                &lt;li&gt;&lt;a href= "readbook.php" target="_self" rel="noopener noreferrer"&gt;Посмотреть все сообщения&lt;/a&gt;&lt;/li&gt;
+            &lt;/ul&gt;
+        &lt;/nav&gt;
+    &lt;/header&gt;
+</code></pre>
+<p>Теперь перейдем к коду оформления нашей страницы (Теперь мы редактируем файл style.css):</p>
+<pre class="code"><code class="coding" data-language="css">
+    html {
+        width: 100%;
+        height: 100%;
+    }
+    body{
+        width: 100%;
+        height: 100%;
+    }
+    nav a {
+        display: block;
+        padding: 0 10px;	
+        color: white;
+        font-size: 16px;
+        line-height: 50px;
+        text-decoration: none; }
+    nav ul li {
+        display:inline-block;
+    }
+    nav a:hover { 
+        background-color: rgb(86, 109, 214);
+    }
+    li {
+        margin: 1px;
+        padding: 7px;
+    }
+    header {
+        display: inline-block;
+        font-size: 15px;
+        font-style: normal;
+        background-color: blueviolet;
+        width: 100%;
+        color: white;
+    }
+    .normalText{
+        text-align: center;
+        font-size: large;
+    }
+    #button{
+        /* background-color: navy;
+        color: oldlace;
+        width: 100px;
+        height: 30px;
+        border-radius: 30px; */
+        text-decoration: none;
+        outline: none;
+        display: inline-block;
+        width: 140px;
+        height: 45px;
+        line-height: 45px;
+        border-radius: 45px;
+        margin: 10px 20px;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 11px;
+        text-transform: uppercase;
+        text-align: center;
+        letter-spacing: 3px;
+        font-weight: 600;
+        color: #524f4e;
+        background: white;
+        box-shadow: 0 8px 15px rgba(0,0,0,.1);
+        transition: .3s;
+        border: none;
+    }
+    #button:hover {
+        background: #2EE59D;
+        box-shadow: 0 15px 20px rgba(46,229,157,.4);
+        color: white;
+        transform: translateY(-7px);; 
+    }
+    .message :hover{
+        color: #0099ff;
+    }
+    .normalText{
+        margin: 15px;
+        align-self: center;
+    }
+    #avatar{
+        max-width: 150px;
+        width: 150px;
+        height: 150px;
+        border-radius: 150px;
+        margin: 6px;
+        padding: 5px;
+    }
+    main {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    @media(max-width:438px){
+            li{
+                margin: 0px;
+                padding: 0px;
+            }
+            nav a{
+                padding: 0 5px;
+            }
+    
+    } 
+    @media(max-width: 700px){
+        main{
+            flex-direction: column;
+        }
+        #avatar{
+            text-align: center;
+            margin: auto;
+        }
+    }
+
+</code></pre>
+<p>После редактируем файл addbook.php который будет включать в себя файл readbook.php:</p>
+<pre class="code"><code class="coding" data-language="php">
+    &lt;?php
+    if ($_POST['password'] === 'World')
+    {
+     $message = $_POST['message'];
+     $name = $_POST['name'];
+     $message = str_replace ("\n","&lt;br&gt;",$message);
+     $message = strip_tags ($message, '&lt;br&gt;');
+     $newRow = '&lt;div class="viewGuestbook"&gt;&lt;span class="message"&gt;' . ($message) .
+             '&lt;/span&gt;&lt;br&gt; &lt;span class="data"&gt;' . date('d.m.Y H:i') . '&lt;/span&gt; - &lt;span class="name"&gt;' . strip_tags ($name) .
+             '&lt;/span&gt;&lt;/div&gt;';
+     $oldRows = join ('', file ('guestbook.txt') );
+     $fileName = fopen ('guestbook.txt', 'w');
+     fputs ($fileName, $newRow . chr(13) . chr(10) . $oldRows);
+     fclose ($fileName);
+     include ("readbook.php");
+    }
+    else {
+    echo "hi";
+    }
+    ?&gt;
+
+</code></pre>
+<p>И вконце редактируем файл readbook.php</p>
+<pre class="code"><code class="coding" data-language="php">
+    &lt;!DOCTYPE html&gt;
+&lt;html lang="ru"&gt;
+&lt;head&gt;
+	&lt;meta charset="UTF-8"&gt;
+	&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+	&lt;title&gt;Гостевая Книга&lt;/title&gt;
+	&lt;link rel="stylesheet" href="readbook.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+	&lt;header&gt;
+			&lt;nav&gt;
+				&lt;ul&gt;
+					&lt;li&gt;&lt;a href="index.html" target="_self" rel="noopener noreferrer"&gt;Отправить сообщение&lt;/a&gt;&lt;/li&gt;
+					&lt;li&gt;&lt;a href= # target="_self" rel="noopener noreferrer"&gt;Посмотреть все сообщения&lt;/a&gt;&lt;/li&gt;
+				&lt;/ul&gt;
+			&lt;/nav&gt;
+	&lt;/header&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+&lt;?php
+
+ $fileName = file ("guestbook.txt");
+ $rows = count ($fileName);
+  
+ if ($rows &gt; 10)
+ {
+ 	if (!isset ($row) )
+ 	{
+ 		$row = 0;
+ 	}
+ 
+ 	print ("&lt;table class=\"guestbookLinks\"&gt;&lt;tr&gt;&lt;td width=\"50%\"&gt;");
+  
+ 	if ($row &gt; 0)
+ 	{
+		echo "&lt;div class=\"nextPage\"&gt;&lt;&lt; &lt;a href=\"readbook.php?row=" . ($row - 10) . "\"&gt;Next 10&lt;/a&gt;&lt;/div&gt;";
+	}
+	
+	print ("&lt;/td&gt;&lt;td width=\"50%\"&gt;");
+
+ 	if ( ($rows - $row) &gt; 10)
+ 	{
+		echo "&lt;div class=\"previousPage\"&gt;&lt;a href=\"readbook.php?row=" . ($row + 10) . "\"&gt;Previous 10&lt;/a&gt; &gt;&gt;&lt;/div&gt;";
+	}
+		
+	print ("&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;");
+
+   	for ($i = $row; $i &lt; ($row + 10); $i++)
+	{
+		echo $fileName [$i];
+	}
+ }
+ else
+ {
+  	for ($i=0; $i &lt; $rows; $i++)
+  	{
+  		echo $fileName [$i];
+  	}
+ }
+  
+?&gt;
+</code></pre>
+<p>И добавляем стили в файл readbook.css</p>
+<pre class="code"><code class="coding" data-language="php">
+    html {
+        width: 100%;
+        height: 100%;
+    }
+    body{
+        width: 100%;
+        height: 100%;
+    }
+    nav a {
+        display: block;
+        padding: 0 10px;	
+        color: white;
+        font-size: 16px;
+        line-height: 50px;
+        text-decoration: none; }
+    nav ul li {
+        display:inline-block;
+    }
+    nav a:hover { 
+        background-color: rgb(86, 109, 214);
+    }
+    li {
+        margin: 1px;
+        padding: 7px;
+    }
+    header {
+        display: inline-block;
+        font-size: 15px;
+        font-style: normal;
+        background-color: blueviolet;
+        width: 100%;
+        color: white;
+    }
+    .viewGuestbook{
+        text-align: center;
+        font-size: large;
+        line-height: 33px;
+    }    
+    
+</code></pre>
+<p>Готово! А вот и то что у нас <a href="book.html">получилось:</p>
+</div>
+</body>
+</html>
